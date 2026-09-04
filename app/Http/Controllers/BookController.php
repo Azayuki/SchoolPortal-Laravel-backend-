@@ -31,7 +31,7 @@ class BookController extends Controller
     }
 
     public function store(){
-        if (!auth()->user() || auth()->user()->role !== 'admin') {
+        if (!auth()->user() || !(auth()->user()->role === 'admin' || auth()->user()->role === 'librarian')) {
             return $this->Unauthorized("You are not authorized to create a book.");
         }
 
@@ -65,7 +65,7 @@ class BookController extends Controller
 
     public function update($id){
 
-        if (!auth()->user() || auth()->user()->role !== 'admin') {
+        if (!auth()->user() || !(auth()->user()->role === 'admin' || auth()->user()->role === 'librarian')) {
             return $this->Unauthorized("You are not authorized to update this book.");
         }
 
@@ -108,7 +108,7 @@ class BookController extends Controller
     }
 
     public function destroy($id){
-        if (!auth()->user() || auth()->user()->role !== 'admin') {
+        if (!auth()->user() || !(auth()->user()->role === 'admin' || auth()->user()->role === 'librarian')) {
             return $this->Unauthorized("You are not authorized to delete this book.");
         }
         $book = Book::find($id);

@@ -26,7 +26,7 @@ class ReservationController extends Controller
         if(!$reservation) return $this->NotFound("Reservation not found!");
 
         $isOwner = auth()->user()->student && $reservation->student_id === auth()->user()->student->id;
-        if(auth()->user()->role !== 'admin' && !$isOwner){
+        if((auth()->user()->role !== 'admin' || auth()->user()->role !== 'librarian') && !$isOwner){
             return $this->Forbidden("You do not have permission to view this reservation.");
         }
 
@@ -75,7 +75,7 @@ class ReservationController extends Controller
         if(!$reservation) return $this->NotFound("Reservation not found!");
 
         $isOwner = auth()->user()->student && $reservation->student_id === auth()->user()->student->id;
-        if(auth()->user()->role !== 'admin' && !$isOwner){
+        if((auth()->user()->role !== 'admin' || auth()->user()->role !== 'librarian') && !$isOwner){
             return $this->Forbidden();
         }
 
