@@ -1,79 +1,88 @@
-
 ```markdown
-# School Library Management API
+```markdown
+## Testing
 
-A RESTful API built with **Laravel** and **Laravel Sanctum** for managing a school library system.  
-It supports multiple user roles, book borrowing, reservations, student enrollment, and internal memos.
+### Prerequisites
 
----
-
-## Features
-
-### Authentication
-- Student registration
-- Employee registration (Admin / Teacher / Principal) — accounts start as **inactive**
-- Login with email & password
-- Logout
-- Auth check
-- Inactive employees cannot log in until activated by an admin
-
-### User Management
-- Full CRUD for users (Admin only)
-- View inactive users
-- Bulk activate employees
-- Get current authenticated user (`/users/me`)
-
-### Students
-- View all students
-- View single student
-
-### Sections
-- CRUD for class sections
-- Each section is assigned to a teacher
-
-### Books
-- CRUD for books
-- SKU uniqueness rule: the same SKU can only be used for the **exact same book** (same title + author)
-- Track availability (`is_available`)
-
-### Borrowing
-- Admin can check out books to students
-- Admin can process book returns
-- Students can view their own borrow history
-- Admins can view all borrow records
-
-### Reservations
-- Students can reserve unavailable books
-- Students can cancel their own reservations
-- Admins can view/manage all reservations
-
-### Enrollments
-- Track student enrollment status (`enrolled`, `withdrawn`, `graduated`)
-- Year-based enrollment records
-
-### Memos
-- Principals can create memos
-- Memos are automatically sent to all teachers
-- Teachers can only view memos they received
-- Admins and Principals can view/delete memos
-
----
-
-## Tech Stack
-
-- PHP 8.x
-- Laravel 11
-- Laravel Sanctum (API authentication)
-- MySQL / MariaDB
-
----
-
-## Installation
-
-1. Clone the repository
+#### Linux
 ```bash
-git clone <repository-url>
-cd <project-folder>
+sudo apt update
+sudo apt install php-sqlite3
+```
+
+#### Windows (Laragon)
+SQLite is usually already enabled.  
+If tests fail with `could not find driver`, open:
+
+```
+Laragon → Menu → PHP → php.ini
+```
+
+Uncomment this line:
+
+```ini
+extension=pdo_sqlite
+extension=sqlite3
+```
+
+Then restart Laragon.
+
+---
+
+### Run the test suite
+
+#### Linux / Windows (Laragon terminal)
+```bash
+# Run all tests
+php artisan test
+
+# Run only the API feature tests
+php artisan test --filter=ApiTest
+
+# Run with detailed output
+php artisan test --filter=ApiTest --testdox
+```
+
+---
+
+### Seed the database (for manual testing)
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+This creates:
+
+| Role              | Username           | Password     | Active |
+|-------------------|--------------------|--------------|--------|
+| Admin             | `admin`            | `password123`| Yes    |
+| Principal         | `principal`        | `password123`| Yes    |
+| Teacher           | `teacher`          | `password123`| Yes    |
+| Inactive Teacher  | `inactive_teacher` | `password123`| No     |
+| Student           | `student1`         | `password123`| Yes    |
+
+Also seeds sample sections and books.
+
+---
+
+### Test database notes
+
+- Feature tests use **SQLite in-memory** by default (`RefreshDatabase`).
+- No need to configure a separate MySQL/MariaDB test database.
+- Each test runs on a clean database.
+
+---
+
+### Example login for manual API testing
+
+```json
+POST /api/login
+{
+  "username": "admin",
+  "password": "password123"
+}
+```
+```
 ```
 
 2. Install dependencies
