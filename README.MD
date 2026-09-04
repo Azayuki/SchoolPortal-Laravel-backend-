@@ -11,7 +11,8 @@ sudo apt install php-sqlite3
 ```
 
 #### Windows (Laragon)
-SQLite is usually already enabled.  
+
+SQLite is usually already enabled.
 If tests fail with `could not find driver`, open:
 
 ```
@@ -32,6 +33,7 @@ Then restart Laragon.
 ### Run the test suite
 
 #### Linux / Windows (Laragon terminal)
+
 ```bash
 # Run all tests
 php artisan test
@@ -53,13 +55,13 @@ php artisan migrate:fresh --seed
 
 This creates:
 
-| Role              | Username           | Password     | Active |
-|-------------------|--------------------|--------------|--------|
-| Admin             | `admin`            | `password123`| Yes    |
-| Principal         | `principal`        | `password123`| Yes    |
-| Teacher           | `teacher`          | `password123`| Yes    |
-| Inactive Teacher  | `inactive_teacher` | `password123`| No     |
-| Student           | `student1`         | `password123`| Yes    |
+| Role             | Username             | Password        | Active |
+| ---------------- | -------------------- | --------------- | ------ |
+| Admin            | `admin`            | `password123` | Yes    |
+| Principal        | `principal`        | `password123` | Yes    |
+| Teacher          | `teacher`          | `password123` | Yes    |
+| Inactive Teacher | `inactive_teacher` | `password123` | No     |
+| Student          | `student1`         | `password123` | Yes    |
 
 Also seeds sample sections and books.
 
@@ -82,7 +84,9 @@ POST /api/login
   "password": "password123"
 }
 ```
+
 ```
+
 ```
 
 2. Install dependencies
