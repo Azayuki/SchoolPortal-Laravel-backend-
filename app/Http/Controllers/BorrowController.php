@@ -12,7 +12,7 @@ class BorrowController extends Controller
     public function index(){
         if(!auth()->user()) return $this->Unauthorized();
 
-        if(auth()->user()->role === 'admin'){
+        if(auth()->user()->role === 'admin' || auth()->user()->role === 'librarian'){
             return $this->Success(Borrow::with(['student','book'])->get());
         }
         $borrows = Borrow::with('book')
@@ -26,7 +26,7 @@ class BorrowController extends Controller
         if(!$borrow) return $this->NotFound("Borrow record not found!");
 
         $isOwner = auth()->user()->student && $borrow->student_id === auth()->user()->student->id;
-        if(auth()->user()->role !== 'admin' && !$isOwner){
+        if((auth()->user()->role === 'admin' || auth()->user()->role === 'librarian') && !$isOwner){
             return $this->Forbidden("You do not have permission to view this record.");
         }
 
@@ -34,7 +34,7 @@ class BorrowController extends Controller
     }
 
     public function store(Request $request){
-        if(!auth()->user() || auth()->user()->role !== 'admin'){
+        if(!auth()->user() || (auth()->user()->role === 'admin' || auth()->user()->role === 'librarian')){
             return $this->Unauthorized("You are not authorized to check out a book.");
         }
 
@@ -69,7 +69,7 @@ class BorrowController extends Controller
     }
 
     public function returnBook($id){
-        if(!auth()->user() || auth()->user()->role !== 'admin'){
+        if(!auth()->user() || (auth()->user()->role === 'admin' || auth()->user()->role === 'librarian')){
             return $this->Unauthorized("You are not authorized to process a return.");
         }
 

@@ -11,7 +11,7 @@ class ReservationController extends Controller
     public function index(){
         if(!auth()->user()) return $this->Unauthorized();
 
-        if(auth()->user()->role === 'admin'){
+        if((auth()->user()->role === 'admin' || auth()->user()->role === 'librarian')){
             return $this->Success(Reservation::with(['student','book'])->get());
         }
 

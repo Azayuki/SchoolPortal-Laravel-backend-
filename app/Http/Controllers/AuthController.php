@@ -32,7 +32,7 @@ class AuthController extends Controller
             "username" => "required|alpha_dash|min:4|max:64|unique:users",
             "email" => "required|email|unique:users",
             "password" => "required|min:8",
-            "role" => "required|in:admin,teacher,principal",
+            "role" => "required|in:admin,teacher,principal,librarian",
         ]);
 
         if($validator->fails()){
