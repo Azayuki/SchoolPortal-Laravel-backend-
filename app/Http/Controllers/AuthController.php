@@ -12,8 +12,8 @@ class AuthController extends Controller
             "username" => "required|alpha_dash|min:4|max:64|unique:users",
             "email" => "required|email|unique:users",
             "password" => "required|min:8",
-            "first_name" => "required|alpha|min:2|max:64",
-            "last_name" => "required|alpha|min:2|max:64",
+            "first_name" => "required|alpha_dash|min:2|max:64",
+            "last_name" => "required|alpha_dash|min:2|max:64",
             "section_id" => "required|exists:sections,id",
         ]);
 
@@ -51,7 +51,7 @@ class AuthController extends Controller
     public function login(Request $request){
 
         $validator = validator()->make($request->all(), [
-            "email" => "required",
+            "username" => "required",
             "password" => "required",
         ]);
 
@@ -73,9 +73,9 @@ class AuthController extends Controller
 
         return $this->Success($user, "Logged in!");
     }
-    public function logout(Request $request){
+    public function logout(){
     
-        $request->user()->currentAccessToken()->delete();
+        auth()->user()->currentAccessToken()->delete();
         
         return $this->Success(null, "Logged out!");
 }
