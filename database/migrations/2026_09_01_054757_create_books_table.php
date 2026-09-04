@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('author');
             $table->integer('year_published');
             $table->boolean('is_available')->default(true);
+            $table->timestamps();
         });
     }
 

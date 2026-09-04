@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('grade_level');
+            $table->timestamps();
             $table->unsignedBigInteger('user_id'); // Foreign key for the teacher
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
